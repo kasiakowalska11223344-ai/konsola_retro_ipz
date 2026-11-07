@@ -13,7 +13,7 @@ A modular Pygame Snake project.
 
 ## Run
 
-Install Pygame:
+Install Pygame Community Edition:
 
 ```bash
 python -m pip install pygame-ce
@@ -25,6 +25,6 @@ Run the game from this folder:
 python main.py
 ```
 
-Use the arrow keys to start and steer. Press `Esc` to quit.
+Use the arrow keys to start and steer (to be changed later). Press `Esc` to quit.
 
 The game uses a 1280x720 fullscreen window and a 17x15 tile board.
