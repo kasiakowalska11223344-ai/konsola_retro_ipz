@@ -15,11 +15,12 @@ from settings import (
     OPPOSITE_DIRECTIONS,
     SNAKE_COLOR,
     TURN_GRACE_DISTANCE,
+    WALL_GRACE_TIME,
 )
 
 
 class Snake:
-    """A smooth snake with a short, pivot-based late-turn grace window."""
+    """A smooth snake with late-turn and wall-contact grace windows."""
 
     def __init__(self, sound_effects=None):
         self.sound_effects = sound_effects
@@ -39,6 +40,10 @@ class Snake:
 
         # A late turn can only be used once at each tile intersection.
         self.late_turn_used = False
+
+        # Starts when the snake first touches a wall. The head pauses in
+        # place while the player gets a brief chance to turn away.
+        self.wall_grace_elapsed = None
 
         # During a late turn, the head rotates around the last tile center.
         self.turn_arc = None
@@ -67,7 +72,50 @@ class Snake:
         return self.direction
 
     def request_direction(self, requested_direction):
-        """Accept a turn, including a brief grace period just after a tile."""
+        """Accept normal, late, and wall-grace turns."""
+        # During wall grace, accept a turn away from the wall immediately.
+        # The head is held at the wall-contact point, so this is a zero-radius
+        # pivot at the edge tile center. Reject turns that would point outside
+        # the board again (important at board corners).
+        if self.wall_grace_elapsed is not None:
+            if requested_direction in (
+                    self.direction,
+                    OPPOSITE_DIRECTIONS[self.direction],
+            ):
+                return
+
+            head_x, head_y = self.body[0]
+            dx, dy = DIRECTIONS[requested_direction]
+            next_tile = (head_x + dx, head_y + dy)
+
+            if not (
+                    0 <= next_tile[0] < BOARD_COLUMNS
+                    and 0 <= next_tile[1] < BOARD_ROWS
+            ):
+                return
+
+            self.turn_queue.clear()
+            self.direction = requested_direction
+            self.wall_grace_elapsed = None
+            self.late_turn_used = True
+            self._play_turn_sound()
+            return
+
+        # Reject a direction that would immediately leave the board from
+        # the current head tile. This also prevents late turns from clipping
+        # through a wall when the snake is already along an outer edge.
+        head_x, head_y = self.body[0]
+        requested_dx, requested_dy = DIRECTIONS[requested_direction]
+        requested_tile = (
+            head_x + requested_dx,
+            head_y + requested_dy,
+        )
+        if not (
+                0 <= requested_tile[0] < BOARD_COLUMNS
+                and 0 <= requested_tile[1] < BOARD_ROWS
+        ):
+            return
+
         reference_direction = self._planned_direction()
 
         # Never allow a 180-degree turn into the snake's own body.
@@ -212,6 +260,11 @@ class Snake:
             self.late_turn_used = True
             self._play_turn_sound()
 
+        # Start wall grace immediately on the exact frame the head reaches
+        # an edge tile facing outwards, even if this update ends on that frame.
+        if self._is_heading_into_wall():
+            self.wall_grace_elapsed = 0.0
+
         return ate_food, None
 
     def update(self, delta_time, food_position):
@@ -254,10 +307,27 @@ class Snake:
 
                 continue
 
-            # If the head is on an edge tile and facing outwards, end before
-            # drawing even a fraction of a tile beyond the wall.
+            # If the head has touched a wall, hold it at the contact point
+            # for a short grace period. A directional input can still turn it
+            # away during this pause; otherwise the collision becomes fatal.
+            if self.wall_grace_elapsed is not None:
+                time_left = WALL_GRACE_TIME - self.wall_grace_elapsed
+                time_step = min(remaining_time, max(0.0, time_left))
+
+                self.wall_grace_elapsed += time_step
+                remaining_time -= time_step
+
+                if self.wall_grace_elapsed >= WALL_GRACE_TIME - epsilon:
+                    return False, "Game Over!"
+
+                # Keep the head touching the wall without moving through it.
+                break
+
+            # The head reaches the wall when it enters an edge tile facing
+            # outwards. Start the grace timer instead of ending the game now.
             if self._is_heading_into_wall():
-                return False, "Game Over!"
+                self.wall_grace_elapsed = 0.0
+                continue
 
             distance_to_center = CELL_SIZE - self.movement_progress
             distance_this_step = min(

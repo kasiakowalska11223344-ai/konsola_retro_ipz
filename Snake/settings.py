@@ -32,6 +32,10 @@ MAX_QUEUED_TURNS = 2
 TURN_GRACE_TIME = 0.06
 TURN_GRACE_DISTANCE = MOVEMENT_SPEED * TURN_GRACE_TIME
 
+# Wall-contact forgiveness: pause briefly when the head first touches a wall.
+# A valid perpendicular turn during this window saves the snake.
+WALL_GRACE_TIME = 0.06
+
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -61,6 +65,13 @@ OPPOSITE_DIRECTIONS = {
 }
 
 KEY_DIRECTIONS = {
+    # Arcade joystick (WASD)
+    pygame.K_w: "UP",
+    pygame.K_s: "DOWN",
+    pygame.K_a: "LEFT",
+    pygame.K_d: "RIGHT",
+
+    # Regular keyboard (arrow keys)
     pygame.K_UP: "UP",
     pygame.K_DOWN: "DOWN",
     pygame.K_LEFT: "LEFT",

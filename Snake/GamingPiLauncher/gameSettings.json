@@ -1,0 +1,71 @@
+{
+    "name": "Snake",
+    "GameInfo": {
+        "gameTileImg": "imgs/logo.png",
+        "gameDashboardImg": "imgs/gameDashboardImg.png",
+        "gameDescription": "Snake description",
+        "gameTextDecorationStyle": ""
+    },
+    "GameSettings": {
+        "exe": "main.py",
+        "launcher": "python3",
+        "disableSound": "false",
+        "disableLights": "false",
+        "KeyConfig": [
+            {
+                "key": "JOY_UP",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "w"
+                    }
+                ]
+            },
+            {
+                "key": "JOY_DOWN",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "s"
+                    }
+                ]
+            },
+            {
+                "key": "JOY_LEFT",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "a"
+                    }
+                ]
+            },
+            {
+                "key": "JOY_RIGHT",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "d"
+                    }
+                ]
+            },
+            {
+                "key": "BUTTON_1_1",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "SPACE"
+                    }
+                ]
+            },
+            {
+                "key": "BUTTON_1_2",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "RETURN"
+                    }
+                ]
+            }
+        ]
+    }
+}

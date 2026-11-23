@@ -45,12 +45,23 @@ dmypy.json
 # Jupyter
 .ipynb_checkpoints/
 
+# Game-generated local data
+# High scores are specific to each machine and should not be committed.
+leaderboard.json
+leaderboard.json.*
+
 # Logs and temporary files
 *.log
 *.tmp
 *.swp
 *.swo
 *~
+*.bak
+*.orig
+*.rej
+
+# Local caches
+.cache/
 
 # macOS
 .DS_Store
