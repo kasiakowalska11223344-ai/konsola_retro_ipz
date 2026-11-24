@@ -34,47 +34,48 @@ After a round ends, it displays the result for about two seconds, then shows the
 leaderboard and asks whether to save the score. LEFT/RIGHT toggles YES/NO and
 SPACE confirms. If the score qualifies for the top ten, enter three initials:
 UP/DOWN changes the selected letter, LEFT/RIGHT selects a letter slot, and
-SPACE saves. The final leaderboard remains visible afterward. The player can only quit
-with `BUTTON_1_2` / RETURN (or ESC during desktop testing); SPACE no longer
-starts another round.
+SPACE saves. The final leaderboard remains visible afterward. The player can quit
+with `BUTTON_1_2` / RETURN (or ESC during desktop testing).
 
 The leaderboard file is created automatically the first time a score is saved.
 
 ## Assets
 
+- Gameplay images: `assets/images/`
 - Font: `assets/fonts/PressStart2P-Regular.ttf`
 - Sound effects: `assets/sounds/*.wav`
+- Launcher thumbnail: `GamingPiLauncher/imgs/logo.png`
+- Launcher dashboard image: `GamingPiLauncher/imgs/gameDashboardImg.png`
+
+Keep gameplay graphics in `assets/images/`. The images inside
+`GamingPiLauncher/imgs/` are used by the launcher interface and are separate
+from the graphics rendered during gameplay.
 
 ## Project layout
 
 ```text
-snake_project/
-│
+Snake/
 ├── main.py
 ├── settings.py
 ├── snake.py
 ├── board.py
 ├── food.py
 ├── ui.py
-├── sounds.py
 ├── fonts.py
+├── sounds.py
 ├── leaderboard.py
-│
-├── assets/
-│   ├── fonts/
-│   │   └── PressStart2P-Regular.ttf
-│   └── sounds/
-│       ├── turn.wav
-│       ├── eat_fruit.wav
-│       └── game_over.wav
-│
+├── leaderboard.json                 # Created locally when scores are saved
 ├── GamingPiLauncher/
 │   ├── gameSettings.json
 │   └── imgs/
 │       ├── logo.png
 │       └── gameDashboardImg.png
-│
-├── leaderboard.json
-├── .gitignore
-└── README.md
+└── assets/
+    ├── images/                       # In-game graphics
+    ├── fonts/
+    │   └── PressStart2P-Regular.ttf
+    └── sounds/
+        ├── turn.wav
+        ├── eat_fruit.wav
+        └── game_over.wav
 ```
