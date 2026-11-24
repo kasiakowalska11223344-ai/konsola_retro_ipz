@@ -1,0 +1,54 @@
+{
+    "gameName": "Arcanoid",
+    "GameInfo": {
+        "gameTileImg": "imgs/logo.png",
+        "gameDashboardImg": "imgs/gameDashboardImg.png",
+        "gameDescription": "Arcanoid description",
+        "gameTextDecorationStyle": ""
+    },
+    "GameSettings": {
+        "exe": "main.py",
+        "launcher": "python3",
+		"creditMode": "arcade",
+        "disableSound": "",
+        "disableLights": "",
+        "KeyConfig": [
+            {
+                "key": "JOY_LEFT",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "a"
+                    }
+                ]
+            },
+            {
+                "key": "JOY_RIGHT",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "d"
+                    }
+                ]
+            },
+            {
+                "key": "BUTTON_1_1",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "SPACE"
+                    }
+                ]
+            },
+            {
+                "key": "BUTTON_1_2",
+                "profiles": [
+                    {
+                        "name": "default",
+                        "trigger": "RETURN"
+                    }
+                ]
+            }
+        ]
+    }
+}
