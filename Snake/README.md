@@ -5,9 +5,9 @@ A modular Pygame Snake game designed for the GamingPiLauncher arcade cabinet.
 ## Requirements
 
 - Python 3.10+
-- Pygame
+- Pygame Community Edition (pygame-ce)
 
-Install Pygame:
+Install Pygame Community Edition with pip:
 
 ```bash
 python3 -m pip install pygame-ce
